@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: hm3
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:sqlite:test.db
+    username: sqlite
+    password: 12345
