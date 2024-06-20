@@ -5,12 +5,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.hm3.database.models.Category;
 import org.example.hm3.database.models.Product;
 import org.example.hm3.models.dto.CategoryDTO;
+import org.example.hm3.models.dto.ResponseProductDTO;
 import org.example.hm3.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,9 +38,18 @@ public class CategoryController {
 
     @GetMapping("/category/{category_id}")
     @Operation(summary = "Возвращает продукты по данной категории")
-    public ResponseEntity<List<Product>> getCategoryById(@PathVariable Long category_id) {
+    public ResponseEntity<List<ResponseProductDTO>> getCategoryById(@PathVariable Long category_id) {
         List<Product> products = categoryService.getCategoryProducts(category_id);
-        return ResponseEntity.status(HttpStatus.OK).body(products);
+        List<ResponseProductDTO> listResponseProductDTO = new ArrayList<>();
+        for (Product product : products) {
+            ResponseProductDTO responseProductDTO = ResponseProductDTO.builder()
+                    .id(product.getId())
+                    .name(product.getName())
+                    .price(product.getPrice())
+                    .productCount(product.getProductCount()).build();
+            listResponseProductDTO.add(responseProductDTO);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(listResponseProductDTO);
     }
 
     @PutMapping("/category/{category_id}")
@@ -60,4 +71,3 @@ public class CategoryController {
         }
     }
 }
-
