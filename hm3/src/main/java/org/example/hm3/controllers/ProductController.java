@@ -22,11 +22,12 @@ public class ProductController {
     @GetMapping("/product")
     @Operation(summary = "Возвращает массив продуктов")
     public ResponseEntity<List<Product>> product() {
+
         return ResponseEntity.ok(productService.getProducts());
     }
 
     @PostMapping("/product")
-    @Operation(summary = "Создает продукт")
+    @Operation(summary = "Создание продукта")
     public ResponseEntity<Product> addProduct(@RequestBody ProductDTO product) {
         Product newProduct = productService.insertProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);

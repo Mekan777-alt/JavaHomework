@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Transactional
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -23,5 +25,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                        @Param("price") Float price,
                        @Param("productCount") int productCount);
 
-
+    @Query(value = """
+            SELECT * FROM product
+            WHERE category_id = :cat_id""", nativeQuery = true)
+    List<Product> getProductsFromCategory(@Param("cat_id") Long cat_id);
 }

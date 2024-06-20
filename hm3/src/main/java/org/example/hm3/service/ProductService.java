@@ -1,6 +1,8 @@
 package org.example.hm3.service;
 
+import org.example.hm3.database.models.Category;
 import org.example.hm3.database.models.Product;
+import org.example.hm3.database.repository.CategoryRepository;
 import org.example.hm3.database.repository.ProductRepository;
 import org.example.hm3.models.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +16,30 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     public List<Product> getProducts() {
+
         return productRepository.findAll();
     }
 
     public Product insertProduct(ProductDTO productDTO) {
-        Product product = Product.builder()
-                .name(productDTO.getName())
-                .price(productDTO.getPrice())
-                .productCount(productDTO.getCountProduct())
-                .build();
-        productRepository.save(product);
+        Category categoryID = categoryRepository.countByName(productDTO.getCategoryName());
+        if (categoryID != null) {
+            Product product = Product.builder()
+                    .name(productDTO.getName())
+                    .price(productDTO.getPrice())
+                    .productCount(productDTO.getCountProduct())
+                    .category(categoryID)
+                    .build();
+            productRepository.save(product);
 
-        return product;
+            return product;
+        } else {
+            return null;
+        }
+
     }
 
     public Product updateProduct(ProductDTO productDTO, int article_id) {

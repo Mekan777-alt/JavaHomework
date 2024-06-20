@@ -1,6 +1,8 @@
 package org.example.hm3.database.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Table(name="product")
 public class Product {
     @Id
-    @GeneratedValue
+    @GeneratedValue()
     private long id;
 
     @Column(name="name")
@@ -26,4 +28,9 @@ public class Product {
 
     @Column(name="product_count")
     private int productCount;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id", insertable = true, updatable = true)
+    @JsonManagedReference
+    private Category category;
 }

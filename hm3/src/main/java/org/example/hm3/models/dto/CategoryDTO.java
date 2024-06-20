@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDTO {
+public class CategoryDTO {
     private String name;
-    private Float price;
-    private int countProduct;
-    private String categoryName;
 }

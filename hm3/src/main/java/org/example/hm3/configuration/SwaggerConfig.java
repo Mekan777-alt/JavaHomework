@@ -11,6 +11,6 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Домашка по JAVA №3").version("1.0.0").contact(new Contact()));
+                .info(new Info().title("Домашка по JAVA №3 и №4").version("1.0.0").contact(new Contact()));
     }
 }
